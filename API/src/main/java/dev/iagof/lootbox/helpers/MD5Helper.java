@@ -1,6 +1,6 @@
-package dev.iagof.lootbox.utils;
+package dev.iagof.lootbox.helpers;
 
-public class MD5Hasher {
+public class MD5Helper {
 
     // https://stackoverflow.com/a/6565597
     public static String generate(String md5) {

@@ -4,11 +4,11 @@ import dev.iagof.lootbox.helpers.RequestResponse;
 import dev.iagof.lootbox.models.RequestModel;
 import dev.iagof.lootbox.models.User;
 import dev.iagof.lootbox.repositories.UsersRepository;
-import dev.iagof.lootbox.utils.MD5Hasher;
+import dev.iagof.lootbox.helpers.JWTHelper;
+import dev.iagof.lootbox.helpers.MD5Helper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UsersServices {
@@ -33,7 +33,7 @@ public class UsersServices {
     public RequestModel Create(User model){
         RequestResponse response = new RequestResponse();
         try{
-            model.setPassword(MD5Hasher.generate(model.getPassword()));
+            model.setPassword(MD5Helper.generate(model.getPassword()));
             usersRepository.save(model);
             return response.SetSuccess("SE-0002", "");
         }
@@ -51,9 +51,11 @@ public class UsersServices {
                 throw new Exception("User not found!");
             }
 
-            if(userLogin.getPassword().equals(MD5Hasher.generate(model.getPassword()))){
+            if(userLogin.getPassword().equals(MD5Helper.generate(model.getPassword()))){
 
-                userLogin.setSessionId(UUID.randomUUID());
+
+                userLogin.setSessionId(JWTHelper.authSigning(userLogin));
+
                 usersRepository.save(userLogin);
                 return response.SetSuccess("SE-0002", userLogin);
             }
