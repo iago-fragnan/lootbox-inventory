@@ -19,23 +19,30 @@ public class JWTHelper {
     private static RSAPublicKey rsaPublicKey;
     private static RSAPrivateKey rsaPrivateKey;
 
-    public static String authSigning(User model){
+    public static void init(){
+        if(rsaPublicKey != null && rsaPrivateKey != null) return;
         try {
             KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
             kpg.initialize(1024);
             KeyPair kp = kpg.generateKeyPair();
             rsaPrivateKey = (RSAPrivateKey) kp.getPrivate();
             rsaPublicKey = (RSAPublicKey) kp.getPublic();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public static String authSigning(User model){
+        try {
             Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
-            String token = JWT.create()
+            return JWT.create()
                     .withIssuer("auth0")
                     .withClaim("userSessionToken", "{email}:+-{pass};+={user}".replace("{email}", model.getEmail()).replace("{pass}", model.getPassword()).replace("{user}", model.getName()))
                     .sign(algorithm);
-            return token;
+
         } catch (JWTCreationException exception){
             return null;
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
         }
 
     }

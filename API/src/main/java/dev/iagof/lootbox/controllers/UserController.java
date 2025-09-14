@@ -4,18 +4,17 @@ package dev.iagof.lootbox.controllers;
 import dev.iagof.lootbox.models.RequestModel;
 import dev.iagof.lootbox.models.User;
 import dev.iagof.lootbox.services.UsersServices;
-import dev.iagof.lootbox.helpers.JWTHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("/user")
+public class UserController {
 
     @Autowired
     private final UsersServices usersServices;
 
-    public UsersController(UsersServices usersServices) {
+    public UserController(UsersServices usersServices) {
         this.usersServices = usersServices;
     }
 
