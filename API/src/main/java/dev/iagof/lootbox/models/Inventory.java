@@ -2,34 +2,36 @@ package dev.iagof.lootbox.models;
 
 import jakarta.persistence.*;
 
-import java.util.UUID;
+// Inventory
+// Cada registro é um inventario vinculado a um usuário
+// Usuário poderá só ter um inventario
 
 @Entity
 @Table(name = "inventories")
 public class Inventory {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
-    private long userID;
+    private long id;
+
+    private long UserID;
 
     public Inventory(long userID) {
-        this.userID = userID;
+        UserID = userID;
     }
 
-    public long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(long userID) {
-        this.userID = userID;
-    }
-
-    public UUID getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUserID() {
+        return UserID;
+    }
+
+    public void setUserID(long userID) {
+        UserID = userID;
     }
 }

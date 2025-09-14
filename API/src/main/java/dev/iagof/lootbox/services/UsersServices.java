@@ -1,10 +1,8 @@
 package dev.iagof.lootbox.services;
 
 import dev.iagof.lootbox.helpers.RequestResponse;
-import dev.iagof.lootbox.models.Inventory;
 import dev.iagof.lootbox.models.RequestModel;
 import dev.iagof.lootbox.models.User;
-import dev.iagof.lootbox.repositories.InventoryRepository;
 import dev.iagof.lootbox.repositories.UsersRepository;
 import dev.iagof.lootbox.utils.MD5Hasher;
 import org.springframework.stereotype.Service;
@@ -15,12 +13,10 @@ import java.util.List;
 public class UsersServices {
 
     private final UsersRepository usersRepository;
-    private final InventoryRepository inventoryRepository;
 
 
-    public UsersServices(UsersRepository usersRepository, InventoryRepository inventoryRepository) {
+    public UsersServices(UsersRepository usersRepository) {
         this.usersRepository = usersRepository;
-        this.inventoryRepository = inventoryRepository;
     }
 
     public RequestModel ListAll() {
@@ -38,7 +34,6 @@ public class UsersServices {
         try{
             model.setPassword(MD5Hasher.generate(model.getPassword()));
             usersRepository.save(model);
-            inventoryRepository.save(new Inventory(model.getId()));
             return response.SetSuccess("SE-0002", "");
         }
         catch (Exception e){

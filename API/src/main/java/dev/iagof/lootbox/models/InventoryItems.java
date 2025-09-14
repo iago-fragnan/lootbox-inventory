@@ -3,15 +3,22 @@ package dev.iagof.lootbox.models;
 
 import jakarta.persistence.*;
 
+// InventoryItems
+// Cria um vinculo de multiplos itens da tabela Items
+// com o id do inventario
+
 @Entity
 @Table(name = "inventoryitems")
 public class InventoryItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long  id;
-    private Inventory inventoryID;
-    private Items itemsID;
+    private long id;
+
+    private long itemId;
+
+    public InventoryItems() {
+    }
 
     public long getId() {
         return id;
@@ -21,19 +28,11 @@ public class InventoryItems {
         this.id = id;
     }
 
-    public Inventory getInventoryID() {
-        return inventoryID;
+    public long getItemId() {
+        return itemId;
     }
 
-    public void setInventoryID(Inventory inventoryID) {
-        this.inventoryID = inventoryID;
-    }
-
-    public Items getItemsID() {
-        return itemsID;
-    }
-
-    public void setItemsID(Items itemsID) {
-        this.itemsID = itemsID;
+    public void setItemId(long itemId) {
+        this.itemId = itemId;
     }
 }
