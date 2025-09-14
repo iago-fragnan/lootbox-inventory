@@ -16,6 +16,11 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
     private String password;
+    @Column(name = "session", unique = true, nullable = true)
+    private UUID sessionId;
+
+    public User() {
+    }
 
     public User(UUID id, String name, String email, String password) {
         this.id = id;
@@ -50,5 +55,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UUID getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(UUID sessionId) {
+        this.sessionId = sessionId;
     }
 }

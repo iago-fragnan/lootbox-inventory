@@ -8,6 +8,7 @@ import dev.iagof.lootbox.utils.MD5Hasher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UsersServices {
@@ -51,6 +52,9 @@ public class UsersServices {
             }
 
             if(userLogin.getPassword().equals(MD5Hasher.generate(model.getPassword()))){
+
+                userLogin.setSessionId(UUID.randomUUID());
+                usersRepository.save(userLogin);
                 return response.SetSuccess("SE-0002", userLogin);
             }
 

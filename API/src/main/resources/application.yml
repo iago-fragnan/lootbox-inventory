@@ -1,9 +1,16 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: iagof
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/lootbox?createDatabaseIfNotExist=true
+    username: root
+    password: N3rdygamerbr@123
+  jpa:
+    hibernate:
+      ddl-auto: update       # creates/updates tables automatically
+    show-sql: true           # optional, shows SQL statements in logs
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
   h2:
     console:
       enabled: true
