@@ -35,8 +35,8 @@ public class UsersController {
     }
 
     @GetMapping("/validate")
-    public boolean validate(@RequestParam String token){
-        return JWTHelper.validate(token);
+    public RequestModel validate(@RequestParam String token){
+        return usersServices.validateToken(token);
     }
 
 }

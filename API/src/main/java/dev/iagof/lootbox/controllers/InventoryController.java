@@ -8,4 +8,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/inventory")
 public class InventoryController {
 
+    @GetMapping
+    public RequestModel getInventory(){
+
+        return new RequestModel();
+    }
+
 }

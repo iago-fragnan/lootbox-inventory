@@ -68,4 +68,14 @@ public class UsersServices {
         }
     }
 
+    public RequestModel validateToken(String token){
+        RequestResponse response = new RequestResponse();
+        try{
+            return response.SetSuccess("SE-0002", JWTHelper.validate(token));
+        }
+        catch (Exception e){
+            return response.SetFailed("SE-0001", e.getMessage());
+        }
+    }
+
 }
