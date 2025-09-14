@@ -5,6 +5,7 @@ import dev.iagof.lootbox.enumerables.ItemsType;
 import dev.iagof.lootbox.enumerables.Rarity;
 import jakarta.persistence.*;
 
+import java.util.UUID;
 
 
 // Items
@@ -17,8 +18,9 @@ import jakarta.persistence.*;
 public class Items {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", updatable = false, nullable = false)
+    private UUID uid;
 
     private String name;
     private Rarity rarity;

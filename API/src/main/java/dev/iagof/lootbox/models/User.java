@@ -2,34 +2,30 @@ package dev.iagof.lootbox.models;
 
 import jakarta.persistence.*;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id", updatable = false, nullable = false)
+    private UUID id;
     private String name;
     @Column(nullable = false, unique = true)
     private String email;
     private String password;
 
-    public User() {
-    }
-
-    public User(Integer id, String name, String email, String password) {
+    public User(UUID id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {
