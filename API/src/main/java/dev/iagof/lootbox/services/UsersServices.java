@@ -1,6 +1,8 @@
 package dev.iagof.lootbox.services;
 
+import dev.iagof.lootbox.enumerables.Roles;
 import dev.iagof.lootbox.helpers.RequestResponse;
+import dev.iagof.lootbox.models.Inventory;
 import dev.iagof.lootbox.models.RequestModel;
 import dev.iagof.lootbox.models.User;
 import dev.iagof.lootbox.repositories.UsersRepository;
@@ -14,11 +16,13 @@ import java.util.List;
 public class UsersServices {
 
     private final UsersRepository usersRepository;
+    private final InventoryServices inventoryServices;
 
-
-    public UsersServices(UsersRepository usersRepository) {
+    public UsersServices(UsersRepository usersRepository, InventoryServices inventoryServices) {
         this.usersRepository = usersRepository;
+        this.inventoryServices = inventoryServices;
     }
+
 
     public RequestModel ListAll() {
         RequestResponse response = new RequestResponse();
@@ -33,8 +37,11 @@ public class UsersServices {
     public RequestModel Create(User model){
         RequestResponse response = new RequestResponse();
         try{
+
             model.setPassword(MD5Helper.generate(model.getPassword()));
             usersRepository.save(model);
+
+            inventoryServices.create(new Inventory(model.getId()));
             return response.SetSuccess("SE-0002", "");
         }
         catch (Exception e){

@@ -1,6 +1,8 @@
 package dev.iagof.lootbox.models;
 
+import dev.iagof.lootbox.enumerables.Roles;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.UUID;
 
@@ -19,6 +21,7 @@ public class User {
     @Lob
     @Column(name = "session", unique = true, nullable = true, length = 512)
     private String sessionId;
+    private Roles role = Roles.user;
 
     public User() {
     }
@@ -64,5 +67,17 @@ public class User {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    public Roles getRole() {
+        return role;
+    }
+
+    public void setRole(Roles role) {
+        this.role = role;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

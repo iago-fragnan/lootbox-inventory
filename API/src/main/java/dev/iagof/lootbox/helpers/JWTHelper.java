@@ -6,13 +6,17 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import dev.iagof.lootbox.enumerables.Roles;
 import dev.iagof.lootbox.models.User;
 
+import javax.management.relation.Role;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.util.Date;
+import java.util.UUID;
 
 public class JWTHelper {
 
@@ -38,7 +42,12 @@ public class JWTHelper {
             Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
             return JWT.create()
                     .withIssuer("auth0")
-                    .withClaim("userSessionToken", "{email}:+-{pass};+={user}".replace("{email}", model.getEmail()).replace("{pass}", model.getPassword()).replace("{user}", model.getName()))
+                    .withClaim("id", model.getId().toString())
+                    .withClaim("name", model.getName())
+                    .withClaim("email", model.getEmail())
+                    .withClaim("pass", model.getPassword())
+                    .withClaim("role", model.getRole().toString())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
                     .sign(algorithm);
 
         } catch (JWTCreationException exception){
@@ -60,6 +69,43 @@ public class JWTHelper {
         } catch (JWTVerificationException exception){
             return false;
         }
+    }
+
+    public static User getUserByToken(String token){
+        try{
+            Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build();
+
+            DecodedJWT jwt = verifier.verify(token);
+            User user = new User();
+            user.setName(jwt.getClaim("name").toString());
+            user.setEmail(jwt.getClaim("email").toString());
+            user.setPassword(jwt.getClaim("pass").toString());
+            user.setId(UUID.fromString(jwt.getClaim("id").asString()));
+            user.setRole(Roles.valueOf(jwt.getClaim("role").asString()));
+
+            return user;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public static boolean isAdmin(String token) {
+        try {
+            Algorithm algorithm = Algorithm.RSA256(rsaPublicKey, rsaPrivateKey);
+            JWTVerifier verifier = JWT.require(algorithm)
+                    .withIssuer("auth0")
+                    .build();
+
+            DecodedJWT jwt = verifier.verify(token);
+            String role = jwt.getClaim("role").asString();
+            return "admin".equals(role);
+
+        } catch (JWTVerificationException exception) {
+            return false;
+        }
+    }
 
 }
