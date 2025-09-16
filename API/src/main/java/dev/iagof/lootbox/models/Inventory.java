@@ -14,10 +14,14 @@ public class Inventory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private UUID UserID;
+    @Column(name = "user_id")
+    private UUID userId;
 
-    public Inventory(UUID userID) {
-        UserID = userID;
+    public Inventory() {
+    }
+
+    public Inventory(UUID UserId) {
+        userId = UserId;
     }
 
     public UUID getId() {
@@ -25,10 +29,10 @@ public class Inventory {
     }
 
     public UUID getUserID() {
-        return UserID;
+        return userId;
     }
 
-    public void setUserID(UUID userID) {
-        UserID = userID;
+    public void setUserID(UUID UserId) {
+        userId = UserId;
     }
 }

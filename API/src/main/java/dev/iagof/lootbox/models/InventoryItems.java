@@ -16,22 +16,39 @@ public class InventoryItems {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private UUID itemId;
-    private UUID inventoryId;
+
+    @ManyToOne
+    @JoinColumn(name = "items")
+    private Items itemId;
+
+    @ManyToOne
+    @JoinColumn(name = "inventories")
+    private Inventory inventoryId;
 
     public InventoryItems() {
+    }
+
+    public Items getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Items itemId) {
+        this.itemId = itemId;
+    }
+
+    public Inventory getInventoryId() {
+        return inventoryId;
+    }
+
+    public void setInventoryId(Inventory inventoryId) {
+        this.inventoryId = inventoryId;
     }
 
     public UUID getId() {
         return id;
     }
 
-
-    public UUID getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(UUID itemId) {
-        this.itemId = itemId;
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

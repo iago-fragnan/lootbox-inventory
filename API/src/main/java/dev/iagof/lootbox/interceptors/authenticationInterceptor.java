@@ -9,7 +9,6 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class authenticationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         JWTHelper.init();
 
         if(request.getHeader("X-Auth-Token") == null && !JWTHelper.validate(request.getHeader("X-Auth-Token"))){

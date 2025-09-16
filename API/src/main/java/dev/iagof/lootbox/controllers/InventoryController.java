@@ -18,9 +18,9 @@ public class InventoryController {
     }
 
     @GetMapping
-    public RequestModel getInventory(@RequestHeader("X-Auth-Token") String token){
-        User user = JWTHelper.getUserByToken(token);
-        return inventoryServices.getInventoryById(user.getId());
+    public RequestModel getInventory(@RequestHeader("X-Auth-Token") String token) {
+        //User user = JWTHelper.getUserByToken(token);
+        return inventoryServices.getInventoryById(JWTHelper.getUserByToken(token).getId());
     }
 
 }
